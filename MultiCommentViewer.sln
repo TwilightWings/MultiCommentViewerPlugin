@@ -127,6 +127,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginCommon", "PluginCommo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginCommonTests", "PluginCommonTests\PluginCommonTests.csproj", "{2787460A-2EF2-412D-8989-A1223D2FCEE0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoiceRoidPlugin", "VoiceRoidPlugin\VoiceRoidPlugin.csproj", "{32EB8B0F-4009-4E5B-8980-F2101C10412D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Beta|Any CPU = Beta|Any CPU
@@ -482,6 +484,12 @@ Global
 		{2787460A-2EF2-412D-8989-A1223D2FCEE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2787460A-2EF2-412D-8989-A1223D2FCEE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2787460A-2EF2-412D-8989-A1223D2FCEE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32EB8B0F-4009-4E5B-8980-F2101C10412D}.Beta|Any CPU.ActiveCfg = Beta|Any CPU
+		{32EB8B0F-4009-4E5B-8980-F2101C10412D}.Beta|Any CPU.Build.0 = Beta|Any CPU
+		{32EB8B0F-4009-4E5B-8980-F2101C10412D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32EB8B0F-4009-4E5B-8980-F2101C10412D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32EB8B0F-4009-4E5B-8980-F2101C10412D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32EB8B0F-4009-4E5B-8980-F2101C10412D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

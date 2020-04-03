@@ -528,6 +528,10 @@ copy "$(SolutionDir)\CommentGeneratorPlugin\bin\$(ConfigurationName)\*" "plugins
 if not exist plugins\Yoyaku mkdir plugins\Yoyaku
 copy "$(SolutionDir)\YoyakuPlugin\bin\$(ConfigurationName)\*" "plugins\Yoyaku\"
 
+:: VoiceRoidPluginのファイルを全部持ってくる
+if not exist plugins\VoiceRoid mkdir plugins\VoiceRoid
+copy "$(SolutionDir)\VoiceRoidPlugin\bin\$(ConfigurationName)\*" "plugins\VoiceRoid\"
+
 :: 自動アップデートに必要なlist.txtを作成
 powershell.exe -ExecutionPolicy Unrestricted -File "$(ProjectDir)\updateFileList.ps1" -TargetDir "$(TargetDir)\"
 
