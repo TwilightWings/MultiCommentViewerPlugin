@@ -9,7 +9,10 @@ namespace VoiceRoidPlugin
 {
     class VoiceRoidController
 	{
-		StringBuilder oldSpeed = new StringBuilder(256);
+        StringBuilder oldSpeed = new StringBuilder(256);
+        StringBuilder oldVolume = new StringBuilder(256);
+        StringBuilder oldPitch = new StringBuilder(256);
+        StringBuilder oldIntonation = new StringBuilder(256);
 		Options _options;
 
 		Thread callLoopThread = null;
@@ -54,7 +57,11 @@ namespace VoiceRoidPlugin
 				//スピード付与
 				if(_options.IsVoiceTypeSpecfied)
 				{
-					setTalkSpeed(_options.VoiceSpeed);
+					setEffects(
+                        _options.VoiceVolume,
+                        _options.VoiceSpeed,
+                        _options.VoiceTone,
+                        100);
 				}
 
 				//読み上げ
@@ -65,7 +72,7 @@ namespace VoiceRoidPlugin
 				{
 					//スピードを戻す
 					waitForNonBusy();
-					clearTalkSpeed();
+					clearEffect();
 				}
 			}
 		}
@@ -109,14 +116,22 @@ namespace VoiceRoidPlugin
 			return true;
 		}
 
-		private void setTalkSpeed(int speed)
+		private void setEffects(int volume, int speed, int pitch, int intonation)
 		{
-			SendMessage(GetSpeedBox(), 0x000d, oldSpeed.Capacity, oldSpeed);
+			setEffectsElement(GetVolumeBox(), oldVolume, volume);
+            setEffectsElement(GetSpeedBox(), oldSpeed, speed);
+            setEffectsElement(GetPitchBox(), oldPitch, pitch);
+            setEffectsElement(GetIntonationBox(), oldIntonation, intonation);
+		}
 
-			SendMessage(GetSpeedBox(), 0x000c, 0, new StringBuilder((speed / 100.0).ToString("N1")));
-			SendMessage(GetSpeedBox(), 0x0100, 0xd, 0x11c0001);
-			SendMessage(GetSpeedBox(), 0x0102, 0xd, 0x11c0001);
-			SendMessage(GetSpeedBox(), 0x0101, 0xd, 0x11C0001);
+        private void setEffectsElement(IntPtr targetForm, StringBuilder oldCache, int newValue)
+        {
+            SendMessage(targetForm, 0x000d, oldCache.Capacity, oldCache);
+
+            SendMessage(targetForm, 0x000c, 0, new StringBuilder((newValue / 100.0).ToString("N1")));
+            SendMessage(targetForm, 0x0100, 0xd, 0x11c0001);
+            SendMessage(targetForm, 0x0102, 0xd, 0x11c0001);
+            SendMessage(targetForm, 0x0101, 0xd, 0x11C0001);
 		}
 
 		private void talk(string message)
@@ -126,18 +141,26 @@ namespace VoiceRoidPlugin
 			SendMessage(GetTextWindow(), 0x000c, 0, new StringBuilder(""));
 		}
 
-		private void clearTalkSpeed()
+		private void clearEffect()
 		{
-			SendMessage(GetSpeedBox(), 0x000c, 0, oldSpeed);
-			WINDOWINFO wi = new WINDOWINFO();
-			do
-			{
-				GetWindowInfo(GetSpeedBox(), ref wi);
-			} while ((wi.dwStyle & 0x08000000L) != 0);
+            clearEffectsElement(GetVolumeBox(), oldVolume);
+            clearEffectsElement(GetSpeedBox(), oldSpeed);
+            clearEffectsElement(GetPitchBox(), oldPitch);
+            clearEffectsElement(GetIntonationBox(), oldIntonation);
+		}
 
-			SendMessage(GetSpeedBox(), 0x0100, 0xd, 0x11c0001);
-			SendMessage(GetSpeedBox(), 0x0102, 0xd, 0x11c0001);
-			SendMessage(GetSpeedBox(), 0x0101, 0xd, 0x11C0001);
+        private void clearEffectsElement(IntPtr targetForm, StringBuilder oldCache)
+        {
+            SendMessage(targetForm, 0x000c, 0, oldCache);
+            WINDOWINFO wi = new WINDOWINFO();
+            do
+            {
+                GetWindowInfo(targetForm, ref wi);
+            } while ((wi.dwStyle & 0x08000000L) != 0);
+
+            SendMessage(targetForm, 0x0100, 0xd, 0x11c0001);
+            SendMessage(targetForm, 0x0102, 0xd, 0x11c0001);
+            SendMessage(targetForm, 0x0101, 0xd, 0x11C0001);
 		}
 
 		private void output(string mes, int speed)
@@ -276,32 +299,67 @@ namespace VoiceRoidPlugin
 			return sb.ToString();
 		}
 
+        private IntPtr GetSettingTabArea()
+        {
+            IntPtr c = FindWindowEx(GetMainWindow(), IntPtr.Zero, _options.mainclassname, null);
+            IntPtr cc = FindWindowEx(c, IntPtr.Zero, _options.mainclassname, null);
+            IntPtr cc2 = FindWindowEx(c, cc, _options.mainclassname, null);
+            IntPtr cc2c = FindWindowEx(cc2, IntPtr.Zero, _options.mainclassname, null);
+            IntPtr cc2cc = FindWindowEx(cc2c, IntPtr.Zero, _options.mainclassname, null);
+            IntPtr cc2cc2 = FindWindowEx(cc2c, cc2cc, _options.mainclassname, null);
+            IntPtr tab = FindWindowEx(cc2cc2, IntPtr.Zero, _options.tabclassname, null);
+            if (tab == IntPtr.Zero)
+            {
+                return IntPtr.Zero;
+            }
+            IntPtr tabc = FindWindowEx(tab, IntPtr.Zero, _options.mainclassname, "音声効果");
+            while (tabc == IntPtr.Zero)
+            {
+                SendMessage(tab, 0x0201, 0x1, 0x800b7);
+                Thread.Sleep(100);
+                tabc = FindWindowEx(tab, IntPtr.Zero, _options.mainclassname, "音声効果");
+            }
+            IntPtr tabc2c = FindWindowEx(tabc, IntPtr.Zero, _options.mainclassname, null);
+
+            return tabc2c;
+        }
+
 		private IntPtr GetSpeedBox()
-		{
-			IntPtr c = FindWindowEx(GetMainWindow(), IntPtr.Zero, _options.mainclassname, null);
-			IntPtr cc = FindWindowEx(c, IntPtr.Zero, _options.mainclassname, null);
-			IntPtr cc2 = FindWindowEx(c, cc, _options.mainclassname, null);
-			IntPtr cc2c = FindWindowEx(cc2, IntPtr.Zero, _options.mainclassname, null);
-			IntPtr cc2cc = FindWindowEx(cc2c, IntPtr.Zero, _options.mainclassname, null);
-			IntPtr cc2cc2 = FindWindowEx(cc2c, cc2cc, _options.mainclassname, null);
-			IntPtr tab = FindWindowEx(cc2cc2, IntPtr.Zero, _options.tabclassname, null);
-			if (tab == IntPtr.Zero)
-			{
-				return IntPtr.Zero;
-			}
-			IntPtr tabc = FindWindowEx(tab, IntPtr.Zero, _options.mainclassname, "音声効果");
-			while (tabc == IntPtr.Zero)
-			{
-				SendMessage(tab, 0x0201, 0x1, 0x800b7);
-				Thread.Sleep(100);
-				tabc = FindWindowEx(tab, IntPtr.Zero, _options.mainclassname, "音声効果");
-			}
-			IntPtr tabc2c = FindWindowEx(tabc, IntPtr.Zero, _options.mainclassname, null);
+        {
+            IntPtr tabc2c = GetSettingTabArea();
 			IntPtr edit1 = FindWindowEx(tabc2c, IntPtr.Zero, _options.editboxclassname, null);
 			IntPtr edit2 = FindWindowEx(tabc2c, edit1, _options.editboxclassname, null);
 			IntPtr edit3 = FindWindowEx(tabc2c, edit2, _options.editboxclassname, null);
 
 			return edit3;
+		}
+
+        private IntPtr GetVolumeBox()
+		{
+			IntPtr tabc2c = GetSettingTabArea();
+			IntPtr edit1 = FindWindowEx(tabc2c, IntPtr.Zero, _options.editboxclassname, null);
+            IntPtr edit2 = FindWindowEx(tabc2c, edit1, _options.editboxclassname, null);
+            IntPtr edit3 = FindWindowEx(tabc2c, edit2, _options.editboxclassname, null);
+            IntPtr edit4 = FindWindowEx(tabc2c, edit3, _options.editboxclassname, null);
+
+			return edit4;
+		}
+
+        private IntPtr GetPitchBox()
+		{
+			IntPtr tabc2c = GetSettingTabArea();
+			IntPtr edit1 = FindWindowEx(tabc2c, IntPtr.Zero, _options.editboxclassname, null);
+            IntPtr edit2 = FindWindowEx(tabc2c, edit1, _options.editboxclassname, null);
+
+            return edit2;
+		}
+
+        private IntPtr GetIntonationBox()
+		{
+			IntPtr tabc2c = GetSettingTabArea();
+			IntPtr edit1 = FindWindowEx(tabc2c, IntPtr.Zero, _options.editboxclassname, null);
+
+            return edit1;
 		}
 	}
 }
