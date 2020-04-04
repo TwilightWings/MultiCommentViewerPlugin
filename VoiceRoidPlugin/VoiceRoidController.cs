@@ -11,7 +11,7 @@ namespace VoiceRoidPlugin
 	{
         StringBuilder oldSpeed = new StringBuilder(256);
         StringBuilder oldVolume = new StringBuilder(256);
-        StringBuilder oldPitch = new StringBuilder(256);
+        StringBuilder oldTone = new StringBuilder(256);
         StringBuilder oldIntonation = new StringBuilder(256);
 		Options _options;
 
@@ -61,7 +61,7 @@ namespace VoiceRoidPlugin
                         _options.VoiceVolume,
                         _options.VoiceSpeed,
                         _options.VoiceTone,
-                        100);
+                        _options.VoiceIntonation);
 				}
 
 				//読み上げ
@@ -116,11 +116,11 @@ namespace VoiceRoidPlugin
 			return true;
 		}
 
-		private void setEffects(int volume, int speed, int pitch, int intonation)
+		private void setEffects(int volume, int speed, int tone, int intonation)
 		{
 			setEffectsElement(GetVolumeBox(), oldVolume, volume);
             setEffectsElement(GetSpeedBox(), oldSpeed, speed);
-            setEffectsElement(GetPitchBox(), oldPitch, pitch);
+            setEffectsElement(GetToneBox(), oldTone, tone);
             setEffectsElement(GetIntonationBox(), oldIntonation, intonation);
 		}
 
@@ -145,7 +145,7 @@ namespace VoiceRoidPlugin
 		{
             clearEffectsElement(GetVolumeBox(), oldVolume);
             clearEffectsElement(GetSpeedBox(), oldSpeed);
-            clearEffectsElement(GetPitchBox(), oldPitch);
+            clearEffectsElement(GetToneBox(), oldTone);
             clearEffectsElement(GetIntonationBox(), oldIntonation);
 		}
 
@@ -345,7 +345,7 @@ namespace VoiceRoidPlugin
 			return edit4;
 		}
 
-        private IntPtr GetPitchBox()
+        private IntPtr GetToneBox()
 		{
 			IntPtr tabc2c = GetSettingTabArea();
 			IntPtr edit1 = FindWindowEx(tabc2c, IntPtr.Zero, _options.editboxclassname, null);

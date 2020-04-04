@@ -76,6 +76,11 @@ namespace VoiceRoidPlugin
             get { return _options.VoiceTone; }
             set { _options.VoiceTone = value; }
         }
+        public int VoiceIntonation
+        {
+            get { return _options.VoiceIntonation; }
+            set { _options.VoiceIntonation = value; }
+        }
 
         public string MainClassCode
         {

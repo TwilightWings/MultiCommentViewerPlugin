@@ -17,6 +17,7 @@ namespace VoiceRoidPlugin
         public int VoiceVolume { get { return GetValue(); } set { SetValue(value); } }
         public int VoiceSpeed { get { return GetValue(); } set { SetValue(value); } }
         public int VoiceTone { get { return GetValue(); } set { SetValue(value); } }
+        public int VoiceIntonation { get { return GetValue(); } set { SetValue(value); } }
 
         //YouTubeLive
         public bool IsYouTubeLiveConnect { get { return GetValue(); } set { SetValue(value); } }
@@ -124,6 +125,7 @@ namespace VoiceRoidPlugin
             Dict.Add(nameof(VoiceVolume), new Item { DefaultValue = 100, Predicate = n => true, Serializer = n => n.ToString(), Deserializer = n => int.Parse(n) });
             Dict.Add(nameof(VoiceSpeed), new Item { DefaultValue = 100, Predicate = n => true, Serializer = n => n.ToString(), Deserializer = n => int.Parse(n) });
             Dict.Add(nameof(VoiceTone), new Item { DefaultValue = 100, Predicate = n => true, Serializer = n => n.ToString(), Deserializer = n => int.Parse(n) });
+            Dict.Add(nameof(VoiceIntonation), new Item { DefaultValue = 100, Predicate = n => true, Serializer = n => n.ToString(), Deserializer = n => int.Parse(n) });
 
             //YouTubeLive
             Dict.Add(nameof(IsYouTubeLiveConnect), new Item { DefaultValue = false, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });

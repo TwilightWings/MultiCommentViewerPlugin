@@ -42,14 +42,17 @@
                     <CheckBox x:Name="voiceTypeSpecifiedCheckBox" Content="読み上げ音声を指定する" IsChecked="{Binding IsVoiceTypeSpecfied}" HorizontalAlignment="Left" Margin="10,354,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.461,11.333"/>
                     <Grid IsEnabled="{Binding IsChecked, ElementName=voiceTypeSpecifiedCheckBox}" Margin="15,379,10,10">
                         <Label Content="音量" HorizontalAlignment="Left" Margin="10,12,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.382,-1.077"/>
-                        <Slider x:Name="voiceVolumeSlider" Minimum="-1" Maximum="100" Value="{Binding VoiceVolume}" TickFrequency="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Margin="49,16,0,0" VerticalAlignment="Top" Width="120"/>
+                        <Slider x:Name="voiceVolumeSlider" Minimum="0" Maximum="200" Value="{Binding VoiceVolume}" TickFrequency="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Margin="49,16,0,0" VerticalAlignment="Top" Width="120"/>
                         <TextBlock Text="{Binding Value, ElementName=voiceVolumeSlider}" HorizontalAlignment="Left" Margin="174,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
                         <Label Content="速度" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top"/>
-                        <Slider x:Name="voiceSpeedSlider" Minimum="50" Maximum="300" Value="{Binding VoiceSpeed}" TickFrequency="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Margin="49,42,0,0" VerticalAlignment="Top" Width="120"/>
+                        <Slider x:Name="voiceSpeedSlider" Minimum="50" Maximum="400" Value="{Binding VoiceSpeed}" TickFrequency="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Margin="49,42,0,0" VerticalAlignment="Top" Width="120"/>
                         <TextBlock Text="{Binding Value, ElementName=voiceSpeedSlider}" HorizontalAlignment="Left" Margin="174,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
                         <Label Content="音程" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top"/>
                         <Slider x:Name="voiceToneSlider" Minimum="50" Maximum="200" Value="{Binding VoiceTone}" TickFrequency="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Margin="49,68,0,0" VerticalAlignment="Top" Width="120"/>
                         <TextBlock Text="{Binding Value, ElementName=voiceToneSlider}" HorizontalAlignment="Left" Margin="174,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+                        <Label Content="抑揚" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top"/>
+                        <Slider x:Name="voiceIntonationSlider" Minimum="50" Maximum="200" Value="{Binding VoiceIntonation}" TickFrequency="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Margin="49,95,0,0" VerticalAlignment="Top" Width="120"/>
+                        <TextBlock Text="{Binding Value, ElementName=voiceIntonationSlider}" HorizontalAlignment="Left" Margin="174,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
                     </Grid>
                     <TextBox x:Name="FormatCode" Height="23" Margin="102,16,10,0" TextWrapping="Wrap" Text="{Binding FormatCode}" VerticalAlignment="Top" ToolTip="$name: 名前    $comment: コメント内容"/>
                     <Label Content="読み上げFomat" HorizontalAlignment="Left" Margin="10,13,0,0" VerticalAlignment="Top" ToolTip="$name: 名前    $comment: コメント内容"/>
