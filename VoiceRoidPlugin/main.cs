@@ -124,6 +124,7 @@ namespace VoiceRoidPlugin
             catch { }
             _bouyomiChanProcess = null;
         }
+
         private static (string name, string comment) GetData(ISiteMessage message, Options options)
         {
             string name = null;
@@ -581,24 +582,27 @@ namespace VoiceRoidPlugin
 
                 //とりあえず何も確認せずにコメントを送信する。起動していなかったら例外が起きる。
 
-                var dataToRead = "";//棒読みちゃんに読んでもらう文字列
-                if (_options.IsReadHandleName && !string.IsNullOrEmpty(name))
-                {
-                    dataToRead += name;
+                //var dataToRead = "";//棒読みちゃんに読んでもらう文字列
+                //if (_options.IsReadHandleName && !string.IsNullOrEmpty(name))
+                //{
+                //    dataToRead += name;
 
-                    if (_options.IsAppendNickTitle)
-                    {
-                        dataToRead += _options.NickTitle;
-                    }
-                }
-                if (_options.IsReadComment && !string.IsNullOrEmpty(comment))
-                {
-                    if (!string.IsNullOrEmpty(dataToRead))//空欄で無い場合、つまり名前も読み上げる場合は名前とコメントの間にスペースを入れる。こうすると名前とコメントの間で一呼吸入れてくれる
-                    {
-                        dataToRead += " ";
-                    }
-                    dataToRead += comment;
-                }
+                //    if (_options.IsAppendNickTitle)
+                //    {
+                //        dataToRead += _options.NickTitle;
+                //    }
+                //}
+                //if (_options.IsReadComment && !string.IsNullOrEmpty(comment))
+                //{
+                //    if (!string.IsNullOrEmpty(dataToRead))//空欄で無い場合、つまり名前も読み上げる場合は名前とコメントの間にスペースを入れる。こうすると名前とコメントの間で一呼吸入れてくれる
+                //    {
+                //        dataToRead += " ";
+                //    }
+                //    dataToRead += comment;
+                //}
+                var rawFormatCode = "$nameさんより $comment だそうです。";
+                var formatCode = rawFormatCode.Replace("$name", "{0}").Replace("$comment", "{1}");
+                var dataToRead = string.Format(formatCode, name, comment);
                 TalkText(dataToRead);
             }
             catch (System.Runtime.Remoting.RemotingException)
