@@ -80,6 +80,37 @@ namespace VoiceRoidPlugin
             set { _options.VoiceTone = value; }
         }
 
+        public string MainClassCode
+        {
+            get { return _options.mainclassname; }
+            set { _options.mainclassname = value; }
+        }
+        public string richtextclassname
+        {
+            get { return _options.richtextclassname; }
+            set { _options.richtextclassname = value; }
+        }
+        public string buttenclassname
+        {
+            get { return _options.buttenclassname; }
+            set { _options.buttenclassname = value; }
+        }
+        public string tabclassname
+        {
+            get { return _options.tabclassname; }
+            set { _options.tabclassname = value; }
+        }
+        public string editboxclassname
+        {
+            get { return _options.editboxclassname; }
+            set { _options.editboxclassname = value; }
+        }
+        public string titlename
+        {
+            get { return _options.titlename; }
+            set { _options.titlename = value; }
+        }
+
         #region YouTubeLive
         /// <summary>
         /// YouTubeLiveの接続メッセージを読み上げるか

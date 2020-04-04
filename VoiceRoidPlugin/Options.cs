@@ -104,6 +104,13 @@ namespace VoiceRoidPlugin
         public bool IsMildomJoin { get { return GetValue(); } set { SetValue(value); } }
         public bool IsMildomLeave { get { return GetValue(); } set { SetValue(value); } }
 
+        public string mainclassname { get { return GetValue(); } set { SetValue(value); } }
+        public string richtextclassname { get { return GetValue(); } set { SetValue(value); } }
+        public string buttenclassname { get { return GetValue(); } set { SetValue(value); } }
+        public string tabclassname { get { return GetValue(); } set { SetValue(value); } }
+        public string editboxclassname { get { return GetValue(); } set { SetValue(value); } }
+        public string titlename { get { return GetValue(); } set { SetValue(value); } }
+
         protected override void Init()
         {
             Dict.Add(nameof(IsEnabled), new Item { DefaultValue = false, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
@@ -202,6 +209,13 @@ namespace VoiceRoidPlugin
             Dict.Add(nameof(IsMildomJoin), new Item { DefaultValue = false, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
             Dict.Add(nameof(IsMildomLeave), new Item { DefaultValue = false, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
 
+            //VoiceRoidCodes
+            Dict.Add(nameof(mainclassname), new Item { DefaultValue = "WindowsForms10.Window.8.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
+            Dict.Add(nameof(richtextclassname), new Item { DefaultValue = "WindowsForms10.RichEdit20W.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
+            Dict.Add(nameof(buttenclassname), new Item { DefaultValue = "WindowsForms10.BUTTON.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
+            Dict.Add(nameof(tabclassname), new Item { DefaultValue = "WindowsForms10.SysTabControl32.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
+            Dict.Add(nameof(editboxclassname), new Item { DefaultValue = "WindowsForms10.EDIT.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
+            Dict.Add(nameof(titlename), new Item { DefaultValue = "VOICEROID＋ 結月ゆかり EX", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
         }
     }
 }
