@@ -99,6 +99,11 @@ namespace VoiceRoidPlugin
                 }
                 catch (Exception) { }
             }
+            if (voiRoController != null)
+            {
+                voiRoController.dispose();
+                voiRoController = null;
+            }
         }
         private void StartBouyomiChan()
         {

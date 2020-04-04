@@ -12,8 +12,9 @@ namespace VoiceRoidPlugin
 		StringBuilder oldSpeed = new StringBuilder(256);
 		Options _options;
 
-		Thread callLoopThread;
+		Thread callLoopThread = null;
 		Queue<string> callTasks = new Queue<string>();
+		bool alive = true;
 
 		public VoiceRoidController(Options options)
 		{
@@ -22,9 +23,14 @@ namespace VoiceRoidPlugin
 			callLoopThread.Start();
 		}
 
-		~VoiceRoidController()
+		public void dispose()
 		{
-			callLoopThread.Abort();
+			alive = false;
+			if (callLoopThread != null)
+			{
+				callLoopThread.Abort();
+				callLoopThread.Join();
+			}
 		}
 
 		public void queueMessage(string message)
@@ -37,7 +43,7 @@ namespace VoiceRoidPlugin
 
 		private void callLoop()
 		{
-			while (true)
+			while (alive)
 			{
 				//taskを得るまで待機
 				var task = getTask();
@@ -66,7 +72,7 @@ namespace VoiceRoidPlugin
 
 		private string getTask()
 		{
-			while (true)
+			while (alive)
 			{
 				lock (callTasks)
 				{
@@ -74,11 +80,12 @@ namespace VoiceRoidPlugin
 				}
 				Thread.Sleep(500);
 			}
+			return "";
 		}
 
 		private void waitForNonBusy()
 		{
-			while( isBusy())
+			while( isBusy() && alive )
 			{
 				Thread.Sleep(100);
 			}
