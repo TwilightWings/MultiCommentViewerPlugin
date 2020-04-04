@@ -47,6 +47,7 @@ namespace VoiceRoidPlugin
     {
         private Options _options;
         Process _bouyomiChanProcess;
+        VoiceRoidController voiRoController;
         public string Name => "VoiceRoid連携";
 
         public string Description => "ゆかりんに読んでもらうプラグインです";
@@ -67,10 +68,11 @@ namespace VoiceRoidPlugin
             catch (System.IO.FileNotFoundException) { }
             try
             {
-                if (_options.IsExecBouyomiChanAtBoot && !IsExecutingProcess("BouyomiChan"))
+                if (_options.IsExecBouyomiChanAtBoot && !IsExecutingProcess("VOICEROID"))
                 {
                     StartBouyomiChan();
                 }
+                voiRoController = new VoiceRoidController(_options);
             }
             catch (Exception) { }
         }
@@ -621,20 +623,9 @@ namespace VoiceRoidPlugin
 
         private int TalkText(string text)
         {
-            if (_options.IsVoiceTypeSpecfied)
-            {
-                //return _bouyomiChanClient.AddTalkTask2(
-                //    text,
-                //    _options.VoiceSpeed,
-                //    _options.VoiceTone,
-                //    _options.VoiceVolume,
-                //    (FNF.Utility.VoiceType)Enum.ToObject(typeof(FNF.Utility.VoiceType), _options.VoiceTypeIndex)
-                //);
-            }
-            else
-            {
-                //return _bouyomiChanClient.AddTalkTask2(text);
-            }
+            if (!voiRoController.isEnable()) throw new Exception("ボイロがないです");
+
+            voiRoController.queueMessage(text);
             return -1;
         }
 
@@ -663,7 +654,6 @@ namespace VoiceRoidPlugin
         }
         public VoiceRoidPlugin()
         {
-            //_bouyomiChanClient = new FNF.Utility.BouyomiChanClient();
             _options = new Options();
         }
 
