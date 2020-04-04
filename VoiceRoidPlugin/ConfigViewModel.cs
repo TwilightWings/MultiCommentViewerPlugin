@@ -10,6 +10,13 @@ namespace VoiceRoidPlugin
         private const int VoiceTypeSapi5Offset = 10001;
 
         private readonly Options _options;
+
+        public string FormatCode
+        {
+            get { return _options.FormatCode; }
+            set { _options.FormatCode = value; }
+        }
+
         public bool IsEnabled
         {
             get { return _options.IsEnabled; }
@@ -29,16 +36,6 @@ namespace VoiceRoidPlugin
         {
             get { return _options.IsReadComment; }
             set { _options.IsReadComment = value; }
-        }
-        public bool IsAppendNickTitle
-        {
-            get { return _options.IsAppendNickTitle; }
-            set { _options.IsAppendNickTitle = value; }
-        }
-        public string NickTitle
-        {
-            get { return _options.NickTitle; }
-            set { _options.NickTitle = value; }
         }
         public bool Want184Read
         {
@@ -741,6 +738,9 @@ namespace VoiceRoidPlugin
                         break;
                     case nameof(_options.IsVoiceTypeSpecfied):
                         RaisePropertyChanged(nameof(IsVoiceTypeSpecfied));
+                        break;
+                    case nameof(_options.FormatCode):
+                        RaisePropertyChanged(nameof(FormatCode));
                         break;
                 }
             };

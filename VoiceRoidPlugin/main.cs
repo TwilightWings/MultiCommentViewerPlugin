@@ -600,8 +600,9 @@ namespace VoiceRoidPlugin
                 //    }
                 //    dataToRead += comment;
                 //}
-                var rawFormatCode = "$nameさんより $comment だそうです。";
-                var formatCode = rawFormatCode.Replace("$name", "{0}").Replace("$comment", "{1}");
+                var formatCode = _options.FormatCode;
+                formatCode = formatCode.Replace("$name", "{0}");
+                formatCode = formatCode.Replace("$comment", "{1}");
                 var dataToRead = string.Format(formatCode, name, comment);
                 TalkText(dataToRead);
             }

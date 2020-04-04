@@ -5,12 +5,11 @@ namespace VoiceRoidPlugin
 {
     class Options : DynamicOptionsBase
     {
+        public string FormatCode { get { return GetValue(); } set { SetValue(value); } }
         public bool IsEnabled { get { return GetValue(); } set { SetValue(value); } }
         public string BouyomiChanPath { get { return GetValue(); } set { SetValue(value); } }
         public bool IsReadHandleName { get { return GetValue(); } set { SetValue(value); } }
         public bool IsReadComment { get { return GetValue(); } set { SetValue(value); } }
-        public bool IsAppendNickTitle { get { return GetValue(); } set { SetValue(value); } }
-        public string NickTitle { get { return GetValue(); } set { SetValue(value); } }
         public bool Want184Read { get { return GetValue(); } set { SetValue(value); } }
         public bool IsExecBouyomiChanAtBoot { get { return GetValue(); } set { SetValue(value); } }
         public bool IsKillBouyomiChan { get { return GetValue(); } set { SetValue(value); } }
@@ -113,12 +112,11 @@ namespace VoiceRoidPlugin
 
         protected override void Init()
         {
+            Dict.Add(nameof(FormatCode), new Item { DefaultValue = "$nameさんより $comment だそうです。", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
             Dict.Add(nameof(IsEnabled), new Item { DefaultValue = false, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
             Dict.Add(nameof(BouyomiChanPath), new Item { DefaultValue = "", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
             Dict.Add(nameof(IsReadHandleName), new Item { DefaultValue = true, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
             Dict.Add(nameof(IsReadComment), new Item { DefaultValue = true, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
-            Dict.Add(nameof(IsAppendNickTitle), new Item { DefaultValue = true, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
-            Dict.Add(nameof(NickTitle), new Item { DefaultValue = "さん", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
             Dict.Add(nameof(Want184Read), new Item { DefaultValue = true, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
             Dict.Add(nameof(IsExecBouyomiChanAtBoot), new Item { DefaultValue = false, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
             Dict.Add(nameof(IsKillBouyomiChan), new Item { DefaultValue = false, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
