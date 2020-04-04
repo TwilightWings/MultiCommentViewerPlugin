@@ -697,8 +697,8 @@ namespace VoiceRoidPlugin
             {
                 var fileDialog = new System.Windows.Forms.OpenFileDialog
                 {
-                    Title = "棒読みちゃんの実行ファイル（BouyomiChan.exe）を選択してください",
-                    Filter = "棒読みちゃん | BouyomiChan.exe"
+                    Title = "VOICEROIDの実行ファイル（VOICEROID.exe）を選択してください",
+                    Filter = "棒読みちゃん | VOICEROID.exe"
                 };
                 var result = fileDialog.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK)
