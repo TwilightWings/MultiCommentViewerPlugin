@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Runtime.InteropServices;
@@ -15,84 +13,42 @@ namespace VoiceRoidPlugin
         StringBuilder oldIntonation = new StringBuilder(256);
 		Options _options;
 
-		Thread callLoopThread = null;
-		Queue<string> callTasks = new Queue<string>();
-		bool alive = true;
-
 		public VoiceRoidController(Options options)
 		{
 			_options = options;
-			callLoopThread = new Thread(new ThreadStart(callLoop));
-			callLoopThread.Start();
 		}
+		
+        public void TalkMessageNow(string message)
+        {
+            //VoiceRoidが暇になるまで待機
+            waitForNonBusy();
 
-		public void dispose()
-		{
-			alive = false;
-			if (callLoopThread != null)
-			{
-				callLoopThread.Abort();
-				callLoopThread.Join();
-			}
-		}
+            //スピード付与
+            if (_options.IsVoiceTypeSpecfied)
+            {
+                setEffects(
+                    _options.VoiceVolume,
+                    _options.VoiceSpeed,
+                    _options.VoiceTone,
+                    _options.VoiceIntonation);
+            }
 
-		public void queueMessage(string message)
-		{
-			lock( callTasks)
-			{
-				callTasks.Enqueue(message);
-			}
-		}
+            //読み上げ
+            talk(message);
 
-		private void callLoop()
-		{
-			while (alive)
-			{
-				//taskを得るまで待機
-				var task = getTask();
+            waitForNonBusy();
 
-				//VoiceRoidが暇になるまで待機
-				waitForNonBusy();
-
-				//スピード付与
-				if(_options.IsVoiceTypeSpecfied)
-				{
-					setEffects(
-                        _options.VoiceVolume,
-                        _options.VoiceSpeed,
-                        _options.VoiceTone,
-                        _options.VoiceIntonation);
-				}
-
-				//読み上げ
-				talk(task);
-
-				//スピード付与の場合VoiceRoidが暇になるまで待機
-				if(_options.IsVoiceTypeSpecfied)
-				{
-					//スピードを戻す
-					waitForNonBusy();
-					clearEffect();
-				}
-			}
-		}
-
-		private string getTask()
-		{
-			while (alive)
-			{
-				lock (callTasks)
-				{
-					if (callTasks.Count > 0) return callTasks.Dequeue();
-				}
-				Thread.Sleep(500);
-			}
-			return "";
-		}
+            //スピード付与の場合VoiceRoidが暇になるまで待機
+            if (_options.IsVoiceTypeSpecfied)
+            {
+                //スピードを戻す
+                clearEffect();
+            }
+        }
 
 		private void waitForNonBusy()
 		{
-			while( isBusy() && alive )
+			while( isBusy() )
 			{
 				Thread.Sleep(100);
 			}

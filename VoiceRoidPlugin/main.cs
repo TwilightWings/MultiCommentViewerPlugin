@@ -635,7 +635,7 @@ namespace VoiceRoidPlugin
         {
             if (!voiRoController.isEnable()) throw new Exception("ボイロがないです");
 
-            voiRoController.queueMessage(text);
+            voiRoController.TalkMessageNow(text);
             return -1;
         }
 
