@@ -7,26 +7,26 @@ namespace VoiceRoidPlugin
 {
     class VoiceRoidController
 	{
-        StringBuilder oldSpeed = new StringBuilder(256);
-        StringBuilder oldVolume = new StringBuilder(256);
-        StringBuilder oldTone = new StringBuilder(256);
-        StringBuilder oldIntonation = new StringBuilder(256);
-		Options _options;
+        private readonly StringBuilder _oldSpeed = new StringBuilder(256);
+        private readonly StringBuilder _oldVolume = new StringBuilder(256);
+        private readonly StringBuilder _oldTone = new StringBuilder(256);
+        private readonly StringBuilder _oldIntonation = new StringBuilder(256);
+        private readonly Options _options;
 
 		public VoiceRoidController(Options options)
 		{
 			_options = options;
 		}
-		
+
         public void TalkMessageNow(string message)
         {
             //VoiceRoidが暇になるまで待機
-            waitForNonBusy();
+            WaitForNonBusy();
 
             //スピード付与
             if (_options.IsVoiceTypeSpecfied)
             {
-                setEffects(
+                SetEffects(
                     _options.VoiceVolume,
                     _options.VoiceSpeed,
                     _options.VoiceTone,
@@ -34,36 +34,36 @@ namespace VoiceRoidPlugin
             }
 
             //読み上げ
-            talk(message);
+            Talk(message);
 
-            waitForNonBusy();
+            WaitForNonBusy();
 
             //スピード付与の場合VoiceRoidが暇になるまで待機
             if (_options.IsVoiceTypeSpecfied)
             {
                 //スピードを戻す
-                clearEffect();
+                ClearEffect();
             }
         }
 
-		private void waitForNonBusy()
+		private void WaitForNonBusy()
 		{
-			while( isBusy() )
+			while( IsBusy() )
 			{
 				Thread.Sleep(100);
 			}
 		}
 
-		private bool isBusy()
+		private bool IsBusy()
 		{
-			string tag = GetButtenStat();
+			string tag = GetButtonStat();
 			if (tag == " 再生" | tag == "")
 				return false;
 			else
 				return true;
 		}
 
-		public bool isEnable()
+		public bool IsEnable()
 		{
 			if (GetMainWindow() == IntPtr.Zero)
 			{
@@ -72,15 +72,15 @@ namespace VoiceRoidPlugin
 			return true;
 		}
 
-		private void setEffects(int volume, int speed, int tone, int intonation)
+		private void SetEffects(int volume, int speed, int tone, int intonation)
 		{
-			setEffectsElement(GetVolumeBox(), oldVolume, volume);
-            setEffectsElement(GetSpeedBox(), oldSpeed, speed);
-            setEffectsElement(GetToneBox(), oldTone, tone);
-            setEffectsElement(GetIntonationBox(), oldIntonation, intonation);
+			SetEffectsElement(GetVolumeBox(), _oldVolume, volume);
+            SetEffectsElement(GetSpeedBox(), _oldSpeed, speed);
+            SetEffectsElement(GetToneBox(), _oldTone, tone);
+            SetEffectsElement(GetIntonationBox(), _oldIntonation, intonation);
 		}
 
-        private void setEffectsElement(IntPtr targetForm, StringBuilder oldCache, int newValue)
+        private void SetEffectsElement(IntPtr targetForm, StringBuilder oldCache, int newValue)
         {
             SendMessage(targetForm, 0x000d, oldCache.Capacity, oldCache);
 
@@ -90,22 +90,22 @@ namespace VoiceRoidPlugin
             SendMessage(targetForm, 0x0101, 0xd, 0x11C0001);
 		}
 
-		private void talk(string message)
+		private void Talk(string message)
 		{
 			SendMessage(GetTextWindow(), 0x000c, 0, new StringBuilder(message));
-			SendMessage(GetButten(), 0x00f5, 0, 0);
+			SendMessage(GetButton(), 0x00f5, 0, 0);
 			SendMessage(GetTextWindow(), 0x000c, 0, new StringBuilder(""));
 		}
 
-		private void clearEffect()
+		private void ClearEffect()
 		{
-            clearEffectsElement(GetVolumeBox(), oldVolume);
-            clearEffectsElement(GetSpeedBox(), oldSpeed);
-            clearEffectsElement(GetToneBox(), oldTone);
-            clearEffectsElement(GetIntonationBox(), oldIntonation);
+            ClearEffectsElement(GetVolumeBox(), _oldVolume);
+            ClearEffectsElement(GetSpeedBox(), _oldSpeed);
+            ClearEffectsElement(GetToneBox(), _oldTone);
+            ClearEffectsElement(GetIntonationBox(), _oldIntonation);
 		}
 
-        private void clearEffectsElement(IntPtr targetForm, StringBuilder oldCache)
+        private void ClearEffectsElement(IntPtr targetForm, StringBuilder oldCache)
         {
             SendMessage(targetForm, 0x000c, 0, oldCache);
             WINDOWINFO wi = new WINDOWINFO();
@@ -118,51 +118,19 @@ namespace VoiceRoidPlugin
             SendMessage(targetForm, 0x0102, 0xd, 0x11c0001);
             SendMessage(targetForm, 0x0101, 0xd, 0x11C0001);
 		}
-
-		private void output(string mes, int speed)
-		{
-			SendMessage(GetSpeedBox(), 0x000d, oldSpeed.Capacity, oldSpeed);
-
-			SendMessage(GetSpeedBox(), 0x000c, 0, new StringBuilder((speed / 100.0).ToString("N1")));
-			SendMessage(GetSpeedBox(), 0x0100, 0xd, 0x11c0001);
-			SendMessage(GetSpeedBox(), 0x0102, 0xd, 0x11c0001);
-			SendMessage(GetSpeedBox(), 0x0101, 0xd, 0x11C0001);
-
-			SendMessage(GetTextWindow(), 0x000c, 0, new StringBuilder(mes));
-			SendMessage(GetButten(), 0x00f5, 0, 0);
-			SendMessage(GetTextWindow(), 0x000c, 0, new StringBuilder(""));
-
-			SendMessage(GetSpeedBox(), 0x000c, 0, oldSpeed);
-
-			Thread rt = new Thread(new ThreadStart(ReturnSpeedSet_old));
-			rt.Start();
-		}
-
-		private void ReturnSpeedSet_old()
-		{
-			WINDOWINFO wi = new WINDOWINFO();
-			do
-			{
-				GetWindowInfo(GetSpeedBox(), ref wi);
-			} while ((wi.dwStyle & 0x08000000L) != 0);
-
-			SendMessage(GetSpeedBox(), 0x0100, 0xd, 0x11c0001);
-			SendMessage(GetSpeedBox(), 0x0102, 0xd, 0x11c0001);
-			SendMessage(GetSpeedBox(), 0x0101, 0xd, 0x11C0001);
-		}
-
+		
 		[DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
 		public static extern IntPtr FindWindow(
 			string lpClassName, string lpWindowName);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+		private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
-		static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, int wParam, StringBuilder lParam);
+		static extern IntPtr SendMessage(IntPtr hWnd, UInt32 msg, int wParam, StringBuilder lParam);
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
-		static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, int wParam, int lParam);
+		static extern IntPtr SendMessage(IntPtr hWnd, UInt32 msg, int wParam, int lParam);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct RECT
@@ -189,6 +157,7 @@ namespace VoiceRoidPlugin
 				cbSize = (UInt32)(Marshal.SizeOf(typeof(WINDOWINFO)));
 			}
 		}
+
 		[return: MarshalAs(UnmanagedType.Bool)]
 		[DllImport("user32.dll", SetLastError = true)]
 		private static extern bool GetWindowInfo(IntPtr hwnd, ref WINDOWINFO pwi);
@@ -225,7 +194,7 @@ namespace VoiceRoidPlugin
 			return FindWindowEx(child, IntPtr.Zero, _options.richtextclassname, null);
 		}
 
-		private IntPtr GetButten()
+		private IntPtr GetButton()
 		{
 			IntPtr child = FindWindowEx(GetMainWindow(), IntPtr.Zero, _options.mainclassname, null);
 
@@ -246,11 +215,11 @@ namespace VoiceRoidPlugin
 			return FindWindowEx(child, IntPtr.Zero, _options.buttenclassname, null);
 		}
 
-		private string GetButtenStat()
+		private string GetButtonStat()
 		{
 			StringBuilder sb = new StringBuilder(256);
 
-			SendMessage(GetButten(), 0x000d, sb.Capacity, sb);
+			SendMessage(GetButton(), 0x000d, sb.Capacity, sb);
 
 			return sb.ToString();
 		}
