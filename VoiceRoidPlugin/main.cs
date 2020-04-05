@@ -99,11 +99,6 @@ namespace VoiceRoidPlugin
                 }
                 catch (Exception) { }
             }
-            if (voiRoController != null)
-            {
-                voiRoController.dispose();
-                voiRoController = null;
-            }
         }
         private void StartBouyomiChan()
         {
@@ -633,7 +628,7 @@ namespace VoiceRoidPlugin
 
         private int TalkText(string text)
         {
-            if (!voiRoController.isEnable()) throw new Exception("ボイロがないです");
+            if (!voiRoController.IsEnable()) throw new Exception("ボイロがないです");
 
             voiRoController.TalkMessageNow(text);
             return -1;
