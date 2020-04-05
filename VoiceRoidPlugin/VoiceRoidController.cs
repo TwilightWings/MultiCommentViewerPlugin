@@ -164,11 +164,11 @@ namespace VoiceRoidPlugin
 
 		private IntPtr GetMainWindow()
 		{
-			IntPtr r = FindWindow(_options.mainclassname, _options.titlename);
+			IntPtr r = FindWindow(_options.VoiceRoidFormMainClass, _options.VoiceRoidFormTitle);
 
 			if (r == IntPtr.Zero)
 			{
-				r = FindWindow(_options.mainclassname, _options.titlename + "*");
+				r = FindWindow(_options.VoiceRoidFormMainClass, _options.VoiceRoidFormTitle + "*");
 			}
 
 			return r;
@@ -176,43 +176,43 @@ namespace VoiceRoidPlugin
 
 		private IntPtr GetTextWindow()
 		{
-			IntPtr child = FindWindowEx(GetMainWindow(), IntPtr.Zero, _options.mainclassname, null);
+			IntPtr child = FindWindowEx(GetMainWindow(), IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
 
-			IntPtr buf = FindWindowEx(child, IntPtr.Zero, _options.mainclassname, null);
-			child = FindWindowEx(child, buf, _options.mainclassname, null);
+			IntPtr buf = FindWindowEx(child, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
+			child = FindWindowEx(child, buf, _options.VoiceRoidFormMainClass, null);
 
-			child = FindWindowEx(child, IntPtr.Zero, _options.mainclassname, null);
+			child = FindWindowEx(child, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
 
-			child = FindWindowEx(child, IntPtr.Zero, _options.mainclassname, null);
+			child = FindWindowEx(child, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
 
-			child = FindWindowEx(child, IntPtr.Zero, _options.mainclassname, null);
+			child = FindWindowEx(child, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
 
-			child = FindWindowEx(child, IntPtr.Zero, _options.mainclassname, null);
+			child = FindWindowEx(child, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
 
-			child = FindWindowEx(child, IntPtr.Zero, _options.mainclassname, null);
+			child = FindWindowEx(child, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
 
-			return FindWindowEx(child, IntPtr.Zero, _options.richtextclassname, null);
+			return FindWindowEx(child, IntPtr.Zero, _options.VoiceRoidFormRichTextClass, null);
 		}
 
 		private IntPtr GetButton()
 		{
-			IntPtr child = FindWindowEx(GetMainWindow(), IntPtr.Zero, _options.mainclassname, null);
+			IntPtr child = FindWindowEx(GetMainWindow(), IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
 
-			IntPtr buf = FindWindowEx(child, IntPtr.Zero, _options.mainclassname, null);
-			child = FindWindowEx(child, buf, _options.mainclassname, null);
+			IntPtr buf = FindWindowEx(child, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
+			child = FindWindowEx(child, buf, _options.VoiceRoidFormMainClass, null);
 
-			child = FindWindowEx(child, IntPtr.Zero, _options.mainclassname, null);
+			child = FindWindowEx(child, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
 
-			child = FindWindowEx(child, IntPtr.Zero, _options.mainclassname, null);
+			child = FindWindowEx(child, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
 
-			child = FindWindowEx(child, IntPtr.Zero, _options.mainclassname, null);
+			child = FindWindowEx(child, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
 
-			child = FindWindowEx(child, IntPtr.Zero, _options.mainclassname, null);
+			child = FindWindowEx(child, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
 
-			buf = FindWindowEx(child, IntPtr.Zero, _options.mainclassname, null);
+			buf = FindWindowEx(child, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
 
-			child = FindWindowEx(child, buf, _options.mainclassname, null);
-			return FindWindowEx(child, IntPtr.Zero, _options.buttenclassname, null);
+			child = FindWindowEx(child, buf, _options.VoiceRoidFormMainClass, null);
+			return FindWindowEx(child, IntPtr.Zero, _options.VoiceRoidFormButtonClass, null);
 		}
 
 		private string GetButtonStat()
@@ -226,25 +226,25 @@ namespace VoiceRoidPlugin
 
         private IntPtr GetSettingTabArea()
         {
-            IntPtr c = FindWindowEx(GetMainWindow(), IntPtr.Zero, _options.mainclassname, null);
-            IntPtr cc = FindWindowEx(c, IntPtr.Zero, _options.mainclassname, null);
-            IntPtr cc2 = FindWindowEx(c, cc, _options.mainclassname, null);
-            IntPtr cc2c = FindWindowEx(cc2, IntPtr.Zero, _options.mainclassname, null);
-            IntPtr cc2cc = FindWindowEx(cc2c, IntPtr.Zero, _options.mainclassname, null);
-            IntPtr cc2cc2 = FindWindowEx(cc2c, cc2cc, _options.mainclassname, null);
-            IntPtr tab = FindWindowEx(cc2cc2, IntPtr.Zero, _options.tabclassname, null);
+            IntPtr c = FindWindowEx(GetMainWindow(), IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
+            IntPtr cc = FindWindowEx(c, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
+            IntPtr cc2 = FindWindowEx(c, cc, _options.VoiceRoidFormMainClass, null);
+            IntPtr cc2c = FindWindowEx(cc2, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
+            IntPtr cc2cc = FindWindowEx(cc2c, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
+            IntPtr cc2cc2 = FindWindowEx(cc2c, cc2cc, _options.VoiceRoidFormMainClass, null);
+            IntPtr tab = FindWindowEx(cc2cc2, IntPtr.Zero, _options.VoiceRoidFormTabClass, null);
             if (tab == IntPtr.Zero)
             {
                 return IntPtr.Zero;
             }
-            IntPtr tabc = FindWindowEx(tab, IntPtr.Zero, _options.mainclassname, "音声効果");
+            IntPtr tabc = FindWindowEx(tab, IntPtr.Zero, _options.VoiceRoidFormMainClass, "音声効果");
             while (tabc == IntPtr.Zero)
             {
                 SendMessage(tab, 0x0201, 0x1, 0x800b7);
                 Thread.Sleep(100);
-                tabc = FindWindowEx(tab, IntPtr.Zero, _options.mainclassname, "音声効果");
+                tabc = FindWindowEx(tab, IntPtr.Zero, _options.VoiceRoidFormMainClass, "音声効果");
             }
-            IntPtr tabc2c = FindWindowEx(tabc, IntPtr.Zero, _options.mainclassname, null);
+            IntPtr tabc2c = FindWindowEx(tabc, IntPtr.Zero, _options.VoiceRoidFormMainClass, null);
 
             return tabc2c;
         }
@@ -252,9 +252,9 @@ namespace VoiceRoidPlugin
 		private IntPtr GetSpeedBox()
         {
             IntPtr tabc2c = GetSettingTabArea();
-			IntPtr edit1 = FindWindowEx(tabc2c, IntPtr.Zero, _options.editboxclassname, null);
-			IntPtr edit2 = FindWindowEx(tabc2c, edit1, _options.editboxclassname, null);
-			IntPtr edit3 = FindWindowEx(tabc2c, edit2, _options.editboxclassname, null);
+			IntPtr edit1 = FindWindowEx(tabc2c, IntPtr.Zero, _options.VoiceRoidFormEditBoxClass, null);
+			IntPtr edit2 = FindWindowEx(tabc2c, edit1, _options.VoiceRoidFormEditBoxClass, null);
+			IntPtr edit3 = FindWindowEx(tabc2c, edit2, _options.VoiceRoidFormEditBoxClass, null);
 
 			return edit3;
 		}
@@ -262,10 +262,10 @@ namespace VoiceRoidPlugin
         private IntPtr GetVolumeBox()
 		{
 			IntPtr tabc2c = GetSettingTabArea();
-			IntPtr edit1 = FindWindowEx(tabc2c, IntPtr.Zero, _options.editboxclassname, null);
-            IntPtr edit2 = FindWindowEx(tabc2c, edit1, _options.editboxclassname, null);
-            IntPtr edit3 = FindWindowEx(tabc2c, edit2, _options.editboxclassname, null);
-            IntPtr edit4 = FindWindowEx(tabc2c, edit3, _options.editboxclassname, null);
+			IntPtr edit1 = FindWindowEx(tabc2c, IntPtr.Zero, _options.VoiceRoidFormEditBoxClass, null);
+            IntPtr edit2 = FindWindowEx(tabc2c, edit1, _options.VoiceRoidFormEditBoxClass, null);
+            IntPtr edit3 = FindWindowEx(tabc2c, edit2, _options.VoiceRoidFormEditBoxClass, null);
+            IntPtr edit4 = FindWindowEx(tabc2c, edit3, _options.VoiceRoidFormEditBoxClass, null);
 
 			return edit4;
 		}
@@ -273,8 +273,8 @@ namespace VoiceRoidPlugin
         private IntPtr GetToneBox()
 		{
 			IntPtr tabc2c = GetSettingTabArea();
-			IntPtr edit1 = FindWindowEx(tabc2c, IntPtr.Zero, _options.editboxclassname, null);
-            IntPtr edit2 = FindWindowEx(tabc2c, edit1, _options.editboxclassname, null);
+			IntPtr edit1 = FindWindowEx(tabc2c, IntPtr.Zero, _options.VoiceRoidFormEditBoxClass, null);
+            IntPtr edit2 = FindWindowEx(tabc2c, edit1, _options.VoiceRoidFormEditBoxClass, null);
 
             return edit2;
 		}
@@ -282,7 +282,7 @@ namespace VoiceRoidPlugin
         private IntPtr GetIntonationBox()
 		{
 			IntPtr tabc2c = GetSettingTabArea();
-			IntPtr edit1 = FindWindowEx(tabc2c, IntPtr.Zero, _options.editboxclassname, null);
+			IntPtr edit1 = FindWindowEx(tabc2c, IntPtr.Zero, _options.VoiceRoidFormEditBoxClass, null);
 
             return edit1;
 		}

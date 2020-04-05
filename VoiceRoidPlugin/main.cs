@@ -46,8 +46,8 @@ namespace VoiceRoidPlugin
     public class VoiceRoidPlugin : IPlugin, IDisposable
     {
         private Options _options;
-        Process _bouyomiChanProcess;
-        VoiceRoidController voiRoController;
+        Process _voiceRoidProcess;
+        private VoiceRoidController _voiceRoidController;
         public string Name => "VoiceRoid連携";
 
         public string Description => "ゆかりんに読んでもらうプラグインです";
@@ -68,11 +68,11 @@ namespace VoiceRoidPlugin
             catch (System.IO.FileNotFoundException) { }
             try
             {
-                if (_options.IsExecBouyomiChanAtBoot && !IsExecutingProcess("VOICEROID"))
+                if (_options.IsExecVoiceRoidAtBoot && !IsExecutingProcess("VOICEROID"))
                 {
-                    StartBouyomiChan();
+                    StartVoiceRoid();
                 }
-                voiRoController = new VoiceRoidController(_options);
+                _voiceRoidController = new VoiceRoidController(_options);
             }
             catch (Exception) { }
         }
@@ -91,33 +91,33 @@ namespace VoiceRoidPlugin
             _settingsView?.ForceClose();
             var s = _options.Serialize();
             Host.SaveOptions(GetSettingsFilePath(), s);
-            if (_bouyomiChanProcess != null && _options.IsKillBouyomiChan)
+            if (_voiceRoidProcess != null && _options.IsKillVoiceRoid)
             {
                 try
                 {
-                    _bouyomiChanProcess.Kill();
+                    _voiceRoidProcess.Kill();
                 }
                 catch (Exception) { }
             }
         }
-        private void StartBouyomiChan()
+        private void StartVoiceRoid()
         {
-            if (_bouyomiChanProcess == null && System.IO.File.Exists(_options.BouyomiChanPath))
+            if (_voiceRoidProcess == null && System.IO.File.Exists(_options.VoiceRoidPath))
             {
-                _bouyomiChanProcess = Process.Start(_options.BouyomiChanPath);
-                _bouyomiChanProcess.EnableRaisingEvents = true;
-                _bouyomiChanProcess.Exited += BouyomiChanProcess_Exited;
+                _voiceRoidProcess = Process.Start(_options.VoiceRoidPath);
+                _voiceRoidProcess.EnableRaisingEvents = true;
+                _voiceRoidProcess.Exited += VoiceRoidProcessExited;
             }
         }
 
-        private void BouyomiChanProcess_Exited(object sender, EventArgs e)
+        private void VoiceRoidProcessExited(object sender, EventArgs e)
         {
             try
             {
-                _bouyomiChanProcess?.Close();//2018/03/25ここで_bouyomiChanProcessがnullになる場合があった
+                _voiceRoidProcess?.Close();//2018/03/25ここで_bouyomiChanProcessがnullになる場合があった
             }
             catch { }
-            _bouyomiChanProcess = null;
+            _voiceRoidProcess = null;
         }
 
         private static (string name, string comment) GetData(ISiteMessage message, Options options)
@@ -572,29 +572,7 @@ namespace VoiceRoidPlugin
             }
             try
             {
-                //棒読みちゃんが事前に起動されていたらそれを使いたい。
-                //起動していなかったら起動させて、準備ができ次第それ以降のコメントを読んで貰う
-
-                //とりあえず何も確認せずにコメントを送信する。起動していなかったら例外が起きる。
-
-                //var dataToRead = "";//棒読みちゃんに読んでもらう文字列
-                //if (_options.IsReadHandleName && !string.IsNullOrEmpty(name))
-                //{
-                //    dataToRead += name;
-
-                //    if (_options.IsAppendNickTitle)
-                //    {
-                //        dataToRead += _options.NickTitle;
-                //    }
-                //}
-                //if (_options.IsReadComment && !string.IsNullOrEmpty(comment))
-                //{
-                //    if (!string.IsNullOrEmpty(dataToRead))//空欄で無い場合、つまり名前も読み上げる場合は名前とコメントの間にスペースを入れる。こうすると名前とコメントの間で一呼吸入れてくれる
-                //    {
-                //        dataToRead += " ";
-                //    }
-                //    dataToRead += comment;
-                //}
+                // オプションで指定するFormatの変数名をString.Formatの引数に変換して入力変換を行う。
                 var formatCode = _options.FormatCode;
                 formatCode = formatCode.Replace("$name", "{0}");
                 formatCode = formatCode.Replace("$comment", "{1}");
@@ -604,18 +582,18 @@ namespace VoiceRoidPlugin
             catch (System.Runtime.Remoting.RemotingException)
             {
                 //多分棒読みちゃんが起動していない。
-                if (_bouyomiChanProcess == null && System.IO.File.Exists(_options.BouyomiChanPath))
+                if (_voiceRoidProcess == null && System.IO.File.Exists(_options.VoiceRoidPath))
                 {
-                    _bouyomiChanProcess = Process.Start(_options.BouyomiChanPath);
-                    _bouyomiChanProcess.EnableRaisingEvents = true;
-                    _bouyomiChanProcess.Exited += (s, e) =>
+                    _voiceRoidProcess = Process.Start(_options.VoiceRoidPath);
+                    _voiceRoidProcess.EnableRaisingEvents = true;
+                    _voiceRoidProcess.Exited += (s, e) =>
                     {
                         try
                         {
-                            _bouyomiChanProcess?.Close();//2018/03/25ここで_bouyomiChanProcessがnullになる場合があった
+                            _voiceRoidProcess?.Close();//2018/03/25ここで_bouyomiChanProcessがnullになる場合があった
                         }
                         catch { }
-                        _bouyomiChanProcess = null;
+                        _voiceRoidProcess = null;
                     };
                 }
                 //起動するまでの間にコメントが投稿されたらここに来てしまうが諦める。
@@ -628,9 +606,9 @@ namespace VoiceRoidPlugin
 
         private int TalkText(string text)
         {
-            if (!voiRoController.IsEnable()) throw new Exception("ボイロがないです");
+            if (!_voiceRoidController.IsEnable()) throw new Exception("ボイロがないです");
 
-            voiRoController.TalkMessageNow(text);
+            _voiceRoidController.TalkMessageNow(text);
             return -1;
         }
 
@@ -672,11 +650,10 @@ namespace VoiceRoidPlugin
                 if (disposing)
                 {
                 }
-                //_bouyomiChanClient.Dispose();
-                if (_bouyomiChanProcess != null)
+                if (_voiceRoidProcess != null)
                 {
-                    _bouyomiChanProcess.Close();
-                    _bouyomiChanProcess = null;
+                    _voiceRoidProcess.Close();
+                    _voiceRoidProcess = null;
                 }
                 _disposedValue = true;
             }

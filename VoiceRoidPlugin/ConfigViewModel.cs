@@ -24,8 +24,8 @@ namespace VoiceRoidPlugin
         }
         public string ExeLocation
         {
-            get { return _options.BouyomiChanPath; }
-            set { _options.BouyomiChanPath = value; }
+            get { return _options.VoiceRoidPath; }
+            set { _options.VoiceRoidPath = value; }
         }
         public bool IsReadHandleName
         {
@@ -42,15 +42,15 @@ namespace VoiceRoidPlugin
             get { return _options.Want184Read; }
             set { _options.Want184Read = value; }
         }
-        public bool IsExecBouyomiChanAtBoot
+        public bool IsExecVoiceRoidAtBoot
         {
-            get { return _options.IsExecBouyomiChanAtBoot; }
-            set { _options.IsExecBouyomiChanAtBoot = value; }
+            get { return _options.IsExecVoiceRoidAtBoot; }
+            set { _options.IsExecVoiceRoidAtBoot = value; }
         }
-        public bool IsKillBouyomiChan
+        public bool IsKillVoiceRoid
         {
-            get { return _options.IsKillBouyomiChan; }
-            set { _options.IsKillBouyomiChan = value; }
+            get { return _options.IsKillVoiceRoid; }
+            set { _options.IsKillVoiceRoid = value; }
         }
 
         public bool IsVoiceTypeSpecfied
@@ -82,35 +82,35 @@ namespace VoiceRoidPlugin
             set { _options.VoiceIntonation = value; }
         }
 
-        public string MainClassCode
+        public string VoiceRoidFormMainClass
         {
-            get { return _options.mainclassname; }
-            set { _options.mainclassname = value; }
+            get { return _options.VoiceRoidFormMainClass; }
+            set { _options.VoiceRoidFormMainClass = value; }
         }
-        public string richtextclassname
+        public string VoiceRoidFormRichTextClass
         {
-            get { return _options.richtextclassname; }
-            set { _options.richtextclassname = value; }
+            get { return _options.VoiceRoidFormRichTextClass; }
+            set { _options.VoiceRoidFormRichTextClass = value; }
         }
-        public string buttenclassname
+        public string VoiceRoidFormButtonClass
         {
-            get { return _options.buttenclassname; }
-            set { _options.buttenclassname = value; }
+            get { return _options.VoiceRoidFormButtonClass; }
+            set { _options.VoiceRoidFormButtonClass = value; }
         }
-        public string tabclassname
+        public string VoiceRoidFormTabClass
         {
-            get { return _options.tabclassname; }
-            set { _options.tabclassname = value; }
+            get { return _options.VoiceRoidFormTabClass; }
+            set { _options.VoiceRoidFormTabClass = value; }
         }
-        public string editboxclassname
+        public string VoiceRoidFormEditBoxClass
         {
-            get { return _options.editboxclassname; }
-            set { _options.editboxclassname = value; }
+            get { return _options.VoiceRoidFormEditBoxClass; }
+            set { _options.VoiceRoidFormEditBoxClass = value; }
         }
-        public string titlename
+        public string VoiceRoidFormTitle
         {
-            get { return _options.titlename; }
-            set { _options.titlename = value; }
+            get { return _options.VoiceRoidFormTitle; }
+            set { _options.VoiceRoidFormTitle = value; }
         }
 
         #region YouTubeLive
@@ -732,7 +732,7 @@ namespace VoiceRoidPlugin
                     case nameof(_options.IsEnabled):
                         RaisePropertyChanged(nameof(IsEnabled));
                         break;
-                    case nameof(_options.BouyomiChanPath):
+                    case nameof(_options.VoiceRoidPath):
                         RaisePropertyChanged(nameof(ExeLocation));
                         break;
                     case nameof(_options.IsReadHandleName):

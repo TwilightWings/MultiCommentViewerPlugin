@@ -18,26 +18,26 @@
                     <Button x:Name="button" Content="選択" Command="{Binding ShowFilePickerCommand}" HorizontalAlignment="Left" Margin="340,78,0,0" VerticalAlignment="Top" Width="37"/>
                     <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="VoiceRoidの実行ファイルを指定するとVoiceRoidを自動的に起動します。"/></TextBlock>
                     <CheckBox Content="184コメントも読ませる" IsChecked="{Binding Want184Read}" HorizontalAlignment="Left" Margin="183,54,0,0" VerticalAlignment="Top"/>
-                    <CheckBox Content="コメビュ起動時にVoiceRoidも起動する" IsChecked="{Binding IsExecBouyomiChanAtBoot}" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top"/>
-                    <CheckBox Content="コメビュ終了時にVoiceRoidも終了させる（自動起動した場合のみ）" IsChecked="{Binding IsKillBouyomiChan}" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Content="コメビュ起動時にVoiceRoidも起動する" IsChecked="{Binding IsExecVoiceRoidAtBoot}" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Content="コメビュ終了時にVoiceRoidも終了させる（自動起動した場合のみ）" IsChecked="{Binding IsKillVoiceRoid}" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top"/>
 
                     <Label Content="メインクラスコード" HorizontalAlignment="Left" Margin="10,188,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="mainclassname" Height="24" Margin="131,190,10,0" TextWrapping="Wrap" Text="{Binding MainClassCode}" VerticalAlignment="Top"/>
+                    <TextBox x:Name="VoiceRoidFormMainClass" Height="24" Margin="131,190,10,0" TextWrapping="Wrap" Text="{Binding VoiceRoidFormMainClass}" VerticalAlignment="Top"/>
 
                     <Label Content="リッチテキストコード" HorizontalAlignment="Left" Margin="10,214,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.447,1.577"/>
-                    <TextBox x:Name="richtextclassname" Height="24" Margin="131,216,10,0" TextWrapping="Wrap" Text="{Binding richtextclassname}" VerticalAlignment="Top" RenderTransformOrigin="0.508,2.783"/>
+                    <TextBox x:Name="VoiceRoidFormRichTextClass" Height="24" Margin="131,216,10,0" TextWrapping="Wrap" Text="{Binding VoiceRoidFormRichTextClass}" VerticalAlignment="Top" RenderTransformOrigin="0.508,2.783"/>
 
                     <Label Content="ボタンクラスコード" HorizontalAlignment="Left" Margin="10,240,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.447,1.577"/>
-                    <TextBox x:Name="buttenclassname" Height="24" Margin="131,242,10,0" TextWrapping="Wrap" Text="{Binding buttenclassname}" VerticalAlignment="Top" RenderTransformOrigin="0.508,2.783"/>
+                    <TextBox x:Name="VoiceRoidFormButtonClass" Height="24" Margin="131,242,10,0" TextWrapping="Wrap" Text="{Binding VoiceRoidFormButtonClass}" VerticalAlignment="Top" RenderTransformOrigin="0.508,2.783"/>
 
                     <Label Content="タブクラスコード" HorizontalAlignment="Left" Margin="10,266,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.447,1.577"/>
-                    <TextBox x:Name="tabclassname" Height="24" Margin="131,268,10,0" TextWrapping="Wrap" Text="{Binding tabclassname}" VerticalAlignment="Top" RenderTransformOrigin="0.508,2.783"/>
+                    <TextBox x:Name="VoiceRoidFormTabClass" Height="24" Margin="131,268,10,0" TextWrapping="Wrap" Text="{Binding VoiceRoidFormTabClass}" VerticalAlignment="Top" RenderTransformOrigin="0.508,2.783"/>
 
                     <Label Content="エディットボックスコード" HorizontalAlignment="Left" Margin="10,292,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.447,1.577"/>
-                    <TextBox x:Name="editboxclassname" Height="24" Margin="131,294,10,0" TextWrapping="Wrap" Text="{Binding editboxclassname}" VerticalAlignment="Top" RenderTransformOrigin="0.508,2.783"/>
+                    <TextBox x:Name="VoiceRoidFormEditBoxClass" Height="24" Margin="131,294,10,0" TextWrapping="Wrap" Text="{Binding VoiceRoidFormEditBoxClass}" VerticalAlignment="Top" RenderTransformOrigin="0.508,2.783"/>
 
                     <Label Content="タイトル文字列" HorizontalAlignment="Left" Margin="10,318,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.447,1.577"/>
-                    <TextBox x:Name="titlename" Height="24" Margin="131,320,10,0" TextWrapping="Wrap" Text="{Binding titlename}" VerticalAlignment="Top" RenderTransformOrigin="0.508,2.783"/>
+                    <TextBox x:Name="VoiceRoidFormTitle" Height="24" Margin="131,320,10,0" TextWrapping="Wrap" Text="{Binding VoiceRoidFormTitle}" VerticalAlignment="Top" RenderTransformOrigin="0.508,2.783"/>
 
                     <CheckBox x:Name="voiceTypeSpecifiedCheckBox" Content="読み上げ音声を指定する" IsChecked="{Binding IsVoiceTypeSpecfied}" HorizontalAlignment="Left" Margin="10,354,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.461,11.333"/>
                     <Grid IsEnabled="{Binding IsChecked, ElementName=voiceTypeSpecifiedCheckBox}" Margin="15,379,10,10">

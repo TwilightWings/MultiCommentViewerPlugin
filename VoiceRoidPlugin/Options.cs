@@ -7,12 +7,12 @@ namespace VoiceRoidPlugin
     {
         public string FormatCode { get { return GetValue(); } set { SetValue(value); } }
         public bool IsEnabled { get { return GetValue(); } set { SetValue(value); } }
-        public string BouyomiChanPath { get { return GetValue(); } set { SetValue(value); } }
+        public string VoiceRoidPath { get { return GetValue(); } set { SetValue(value); } }
         public bool IsReadHandleName { get { return GetValue(); } set { SetValue(value); } }
         public bool IsReadComment { get { return GetValue(); } set { SetValue(value); } }
         public bool Want184Read { get { return GetValue(); } set { SetValue(value); } }
-        public bool IsExecBouyomiChanAtBoot { get { return GetValue(); } set { SetValue(value); } }
-        public bool IsKillBouyomiChan { get { return GetValue(); } set { SetValue(value); } }
+        public bool IsExecVoiceRoidAtBoot { get { return GetValue(); } set { SetValue(value); } }
+        public bool IsKillVoiceRoid { get { return GetValue(); } set { SetValue(value); } }
         public bool IsVoiceTypeSpecfied { get { return GetValue(); } set { SetValue(value); } }
         public int VoiceVolume { get { return GetValue(); } set { SetValue(value); } }
         public int VoiceSpeed { get { return GetValue(); } set { SetValue(value); } }
@@ -104,23 +104,23 @@ namespace VoiceRoidPlugin
         public bool IsMildomJoin { get { return GetValue(); } set { SetValue(value); } }
         public bool IsMildomLeave { get { return GetValue(); } set { SetValue(value); } }
 
-        public string mainclassname { get { return GetValue(); } set { SetValue(value); } }
-        public string richtextclassname { get { return GetValue(); } set { SetValue(value); } }
-        public string buttenclassname { get { return GetValue(); } set { SetValue(value); } }
-        public string tabclassname { get { return GetValue(); } set { SetValue(value); } }
-        public string editboxclassname { get { return GetValue(); } set { SetValue(value); } }
-        public string titlename { get { return GetValue(); } set { SetValue(value); } }
+        public string VoiceRoidFormMainClass { get { return GetValue(); } set { SetValue(value); } }
+        public string VoiceRoidFormRichTextClass { get { return GetValue(); } set { SetValue(value); } }
+        public string VoiceRoidFormButtonClass { get { return GetValue(); } set { SetValue(value); } }
+        public string VoiceRoidFormTabClass { get { return GetValue(); } set { SetValue(value); } }
+        public string VoiceRoidFormEditBoxClass { get { return GetValue(); } set { SetValue(value); } }
+        public string VoiceRoidFormTitle { get { return GetValue(); } set { SetValue(value); } }
 
         protected override void Init()
         {
             Dict.Add(nameof(FormatCode), new Item { DefaultValue = "$nameさんより $comment だそうです。", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
             Dict.Add(nameof(IsEnabled), new Item { DefaultValue = false, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
-            Dict.Add(nameof(BouyomiChanPath), new Item { DefaultValue = "", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
+            Dict.Add(nameof(VoiceRoidPath), new Item { DefaultValue = "", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
             Dict.Add(nameof(IsReadHandleName), new Item { DefaultValue = true, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
             Dict.Add(nameof(IsReadComment), new Item { DefaultValue = true, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
             Dict.Add(nameof(Want184Read), new Item { DefaultValue = true, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
-            Dict.Add(nameof(IsExecBouyomiChanAtBoot), new Item { DefaultValue = false, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
-            Dict.Add(nameof(IsKillBouyomiChan), new Item { DefaultValue = false, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
+            Dict.Add(nameof(IsExecVoiceRoidAtBoot), new Item { DefaultValue = false, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
+            Dict.Add(nameof(IsKillVoiceRoid), new Item { DefaultValue = false, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
             Dict.Add(nameof(IsVoiceTypeSpecfied), new Item { DefaultValue = false, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
             Dict.Add(nameof(VoiceVolume), new Item { DefaultValue = 100, Predicate = n => true, Serializer = n => n.ToString(), Deserializer = n => int.Parse(n) });
             Dict.Add(nameof(VoiceSpeed), new Item { DefaultValue = 100, Predicate = n => true, Serializer = n => n.ToString(), Deserializer = n => int.Parse(n) });
@@ -210,12 +210,12 @@ namespace VoiceRoidPlugin
             Dict.Add(nameof(IsMildomLeave), new Item { DefaultValue = false, Predicate = b => true, Serializer = b => b.ToString(), Deserializer = s => bool.Parse(s) });
 
             //VoiceRoidCodes
-            Dict.Add(nameof(mainclassname), new Item { DefaultValue = "WindowsForms10.Window.8.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
-            Dict.Add(nameof(richtextclassname), new Item { DefaultValue = "WindowsForms10.RichEdit20W.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
-            Dict.Add(nameof(buttenclassname), new Item { DefaultValue = "WindowsForms10.BUTTON.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
-            Dict.Add(nameof(tabclassname), new Item { DefaultValue = "WindowsForms10.SysTabControl32.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
-            Dict.Add(nameof(editboxclassname), new Item { DefaultValue = "WindowsForms10.EDIT.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
-            Dict.Add(nameof(titlename), new Item { DefaultValue = "VOICEROID＋ 結月ゆかり EX", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
+            Dict.Add(nameof(VoiceRoidFormMainClass), new Item { DefaultValue = "WindowsForms10.Window.8.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
+            Dict.Add(nameof(VoiceRoidFormRichTextClass), new Item { DefaultValue = "WindowsForms10.RichEdit20W.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
+            Dict.Add(nameof(VoiceRoidFormButtonClass), new Item { DefaultValue = "WindowsForms10.BUTTON.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
+            Dict.Add(nameof(VoiceRoidFormTabClass), new Item { DefaultValue = "WindowsForms10.SysTabControl32.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
+            Dict.Add(nameof(VoiceRoidFormEditBoxClass), new Item { DefaultValue = "WindowsForms10.EDIT.app.0.378734a", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
+            Dict.Add(nameof(VoiceRoidFormTitle), new Item { DefaultValue = "VOICEROID＋ 結月ゆかり EX", Predicate = s => true, Serializer = s => s, Deserializer = s => s });
         }
     }
 }
